@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Артём & Алёна — Приглашение</title>
+
+  <!-- Premium fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --paper: #f7f3ee;
+      --ivory: #fbf8f2;
+      --text: #121316;
+      --muted: rgba(18,19,22,.70);
+      --line: rgba(18,19,22,.14);
+      --gold: rgba(206, 174, 120, .95);
+      --shadow: 0 24px 70px rgba(0,0,0,.30);
+      --radius: 22px;
+    }
+
+    *{box-sizing:border-box;}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: var(--paper);
+      overflow-x:hidden;
+      scroll-behavior:smooth;
+    }
+
+    .container{
+      width:min(1100px, calc(100% - 48px));
+      margin:0 auto;
+    }
+
+    section{ padding: 92px 0; position: relative; }
+
+    .eyebrow{
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: rgba(18,19,22,.62);
+      margin: 0 0 14px 0;
+    }
+
+    .title-serif{
+      font-family: "Cormorant Garamond", serif;
+      letter-spacing: .02em;
+      margin:0;
+    }
+
+    .h2{
+      font-size: clamp(34px, 4.2vw, 52px);
+      font-weight: 600;
+      line-height: 1.05;
+    }
+
+    .p{
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .divider{
+      height: 1px;
+      background: var(--line);
+      margin: 26px 0;
+    }
+
+    .card{
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(255,255,255,.7);
+      box-shadow: 0 20px 80px rgba(0,0,0,.08);
+      border-radius: var(--radius);
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(18,19,22,.18);
+      background: rgba(255,255,255,.76);
+      color: rgba(18,19,22,.92);
+      text-decoration:none;
+      font-size: 14px;
+      letter-spacing: .04em;
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(18,19,22,.28); background: rgba(255,255,255,.90); }
+    .btn.primary{
+      border-color: rgba(206,174,120,.55);
+      background: linear-gradient(180deg, rgba(206,174,120,.22), rgba(206,174,120,.06));
+    }
+    .btn.dark{
+      border-color: rgba(255,255,255,.28);
+      background: rgba(10,10,12,.35);
+      color: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+    }
+
+    /* ---------- ENVELOPE OVERLAY ---------- */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background: radial-gradient(1000px 700px at 50% 30%, rgba(206,174,120,.18), transparent 60%),
+                  linear-gradient(180deg, #07070a 0%, #0c0d12 100%);
+      display:grid;
+      place-items:center;
+      z-index: 9999;
+      padding: 32px;
+    }
+
+    .envelope-wrap{
+      width: min(560px, 92vw);
+      text-align:center;
+      color: rgba(255,255,255,.92);
+    }
+
+    .envelope-title{
+      font-family:"Cormorant Garamond", serif;
+      font-weight: 600;
+      font-size: clamp(34px, 6vw, 56px);
+      margin: 0 0 10px 0;
+      letter-spacing:.03em;
+    }
+
+    .envelope-sub{
+      margin: 0 0 28px 0;
+      color: rgba(255,255,255,.70);
+      font-size: 14px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .envelope{
+      position: relative;
+      margin: 0 auto;
+      width: min(520px, 92vw);
+      height: 320px;
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      border: 1px solid rgba(255,255,255,.14);
+      overflow:hidden;
+      cursor:pointer;
+      transform: translateZ(0);
+    }
+
+    .env-inner{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(700px 240px at 50% -20%, rgba(206,174,120,.45), transparent 60%),
+        linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.03));
+    }
+
+    .env-bottom{
+      position:absolute;
+      left:0; right:0; bottom:0;
+      height: 56%;
+      background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
+      border-top: 1px solid rgba(255,255,255,.12);
+    }
+
+    .env-flap{
+      position:absolute;
+      left:0; right:0; top:0;
+      height: 62%;
+      background: linear-gradient(180deg, rgba(206,174,120,.16), rgba(255,255,255,.05));
+      clip-path: polygon(0 0, 50% 78%, 100% 0, 100% 0, 0 0);
+      transform-origin: top;
+      transform: rotateX(0deg);
+      transition: transform 1.05s cubic-bezier(.2,.9,.15,1);
+      border-bottom: 1px solid rgba(255,255,255,.14);
+      filter: drop-shadow(0 14px 25px rgba(0,0,0,.25));
+    }
+
+    .env-letter{
+      position:absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 16px;
+      height: 80%;
+      background: linear-gradient(180deg, rgba(251,248,242,.98), rgba(247,243,238,.94));
+      border-radius: 14px;
+      border: 1px solid rgba(18,19,22,.10);
+      transform: translateY(28%);
+      transition: transform 1.05s cubic-bezier(.2,.9,.15,1);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+    }
+
+    .env-letter p{
+      margin:0;
+      font-family:"Cormorant Garamond", serif;
+      font-size: 20px;
+      letter-spacing: .06em;
+      color: rgba(18,19,22,.78);
+      text-align:center;
+    }
+
+    .envelope.open .env-flap{ transform: rotateX(180deg); }
+    .envelope.open .env-letter{ transform: translateY(-6%); }
+
+    .overlay.fade-out{
+      animation: overlayOut .85s ease forwards;
+    }
+    @keyframes overlayOut{
+      to{ opacity:0; transform: translateY(-10px); pointer-events:none; }
+    }
+
+    /* ---------- HERO ---------- */
+    header.hero{
+      min-height: 100vh;
+      padding: 0;
+      display:flex;
+      align-items:stretch;
+      background: #0b0c0f;
+      color: rgba(255,255,255,.94);
+      position:relative;
+      overflow:hidden;
+    }
+
+    header.hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(900px 600px at 50% 20%, rgba(206,174,120,.22), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.62));
+      z-index:1;
+    }
+
+    .hero-bg{
+      position:absolute;
+      inset:0;
+      background: url("img/hero.jpg") center/cover no-repeat;
+      transform: scale(1.03);
+      filter: saturate(.98) contrast(1.03);
+    }
+
+    .hero-content{
+      position:relative;
+      z-index:2;
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding: 110px 0 78px;
+    }
+
+    .hero-card{
+      width:min(980px, calc(100% - 48px));
+      padding: 34px 24px 26px;
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(10,10,12,.30), rgba(10,10,12,.22));
+      box-shadow: 0 30px 90px rgba(0,0,0,.36);
+      backdrop-filter: blur(12px);
+    }
+
+    .names{
+      font-family:"Cormorant Garamond", serif;
+      font-weight: 600;
+      letter-spacing: .05em;
+      font-size: clamp(44px, 7vw, 86px);
+      line-height: 1.03;
+      margin: 6px 0 10px 0;
+    }
+
+    .date-line{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 14px;
+      margin: 0 0 22px 0;
+      color: rgba(255,255,255,.82);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+    .date-dot{
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--gold);
+      box-shadow: 0 0 0 6px rgba(206,174,120,.16);
+    }
+
+    .timer{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 0 auto 18px;
+      width: min(660px, 100%);
+    }
+
+    .tbox{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      padding: 14px 10px 12px;
+    }
+    .tval{
+      font-family:"Cormorant Garamond", serif;
+      font-size: clamp(28px, 4.5vw, 44px);
+      letter-spacing: .06em;
+      margin:0;
+      line-height:1.05;
+    }
+    .tlabel{
+      margin: 4px 0 0;
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.70);
+    }
+
+    .hero-actions{
+      display:flex;
+      gap: 12px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top: 10px;
+    }
+
+    .scroll-cue{
+      position:absolute;
+      left:0; right:0;
+      bottom: 24px;
+      z-index:2;
+      display:flex;
+      justify-content:center;
+      pointer-events:none;
+    }
+    .scroll-cue span{
+      font-size: 12px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color: rgba(255,255,255,.72);
+      display:flex;
+      align-items:center;
+      gap:10px;
+      opacity:.9;
+    }
+    .scroll-cue i{
+      width: 20px;
+      height: 34px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 999px;
+      position: relative;
+    }
+    .scroll-cue i::after{
+      content:"";
+      width: 4px; height: 4px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.75);
+      position:absolute;
+      left:50%;
+      transform: translateX(-50%);
+      top: 8px;
+      animation: dot 1.5s ease-in-out infinite;
+    }
+    @keyframes dot{
+      0%,100%{ transform: translateX(-50%) translateY(0); opacity:.7; }
+      50%{ transform: translateX(-50%) translateY(10px); opacity:1; }
+    }
+
+    /* ---------- SECTION: GUESTS ---------- */
+    .two-col{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    .photo{
+      width:100%;
+      height: 100%;
+      min-height: 360px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      border: 1px solid rgba(18,19,22,.10);
+      box-shadow: 0 18px 70px rgba(0,0,0,.10);
+    }
+
+    .quote{
+      margin-top: 16px;
+      font-family:"Cormorant Garamond", serif;
+      font-size: 22px;
+      letter-spacing: .03em;
+      color: rgba(18,19,22,.86);
+    }
+
+    /* ---------- SECTION: COUPLE ---------- */
+    .stack{ display:grid; gap: 16px; margin-top: 18px; }
+
+    .person{
+      display:grid;
+      grid-template-columns: 160px 1fr;
+      gap: 16px;
+      align-items:center;
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(18,19,22,.10);
+      background: rgba(255,255,255,.78);
+      box-shadow: 0 18px 70px rgba(0,0,0,.06);
+    }
+
+    .avatar{
+      width: 160px;
+      height: 160px;
+      border-radius: 18px;
+      object-fit: cover;
+      border: 1px solid rgba(18,19,22,.10);
+    }
+
+    .role{
+      font-size: 12px;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: rgba(18,19,22,.55);
+      margin:0 0 6px 0;
+    }
+
+    .person-name{
+      font-family:"Cormorant Garamond", serif;
+      font-size: 34px;
+      margin:0;
+      letter-spacing: .02em;
+    }
+
+    /* ---------- SECTION: TIMELINE ---------- */
+    .timeline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .event{ overflow:hidden; }
+
+    .event-head{ padding: 18px 18px 14px; }
+
+    .time{
+      font-family:"Cormorant Garamond", serif;
+      font-size: 34px;
+      margin:0;
+      letter-spacing:.04em;
+    }
+
+    .place{
+      margin: 6px 0 0;
+      color: rgba(18,19,22,.72);
+      line-height:1.6;
+      font-size: 14px;
+    }
+
+    .event-media{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 0 18px 18px;
+    }
+
+    .event-media img{
+      width:100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 18px;
+      border: 1px solid rgba(18,19,22,.10);
+    }
+
+    .map{
+      width:100%;
+      height: 240px;
+      border: 0;
+      border-radius: 18px;
+      overflow:hidden;
+      box-shadow: 0 18px 70px rgba(0,0,0,.08);
+    }
+
+    .event-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* ---------- RSVP ---------- */
+    .rsvp{
+      background: linear-gradient(180deg, rgba(206,174,120,.10), transparent 55%);
+    }
+
+    .rsvp-card{
+      padding: 26px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(18,19,22,.10);
+      box-shadow: 0 24px 90px rgba(0,0,0,.08);
+      display:grid;
+      gap: 14px;
+      text-align:center;
+    }
+
+    footer{
+      padding: 36px 0 50px;
+      color: rgba(18,19,22,.55);
+      text-align:center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 920px){
+      .two-col{ grid-template-columns: 1fr; }
+      .timeline{ grid-template-columns: 1fr; }
+      .person{ grid-template-columns: 1fr; text-align:center; }
+      .avatar{ margin: 0 auto; }
+      .timer{ grid-template-columns: repeat(2, 1fr); }
+      section{ padding: 76px 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ENVELOPE -->
+  <div class="overlay" id="overlay">
+    <div class="envelope-wrap">
+      <h1 class="envelope-title">Приглашение</h1>
+      <p class="envelope-sub">Артём & Алёна • 30.07.2026</p>
+
+      <div class="envelope" id="envelope" aria-label="Открыть конверт">
+        <div class="env-inner"></div>
+        <div class="env-flap"></div>
+        <div class="env-letter">
+          <p>Нажмите, чтобы открыть</p>
+        </div>
+        <div class="env-bottom"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero" id="start">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-card">
+        <div class="date-line">
+          <span class="date-dot"></span>
+          <span>30 • 07 • 2026</span>
+          <span class="date-dot"></span>
+        </div>
+
+        <h1 class="names">Артём & Алёна</h1>
+
+        <div class="timer" aria-label="Таймер до свадьбы">
+          <div class="tbox">
+            <p class="tval" id="d">—</p>
+            <p class="tlabel">Дней</p>
+          </div>
+          <div class="tbox">
+            <p class="tval" id="h">—</p>
+            <p class="tlabel">Часов</p>
+          </div>
+          <div class="tbox">
+            <p class="tval" id="m">—</p>
+            <p class="tlabel">Минут</p>
+          </div>
+          <div class="tbox">
+            <p class="tval" id="s">—</p>
+            <p class="tlabel">Секунд</p>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn dark" href="#guests">Открыть приглашение</a>
+          <a class="btn primary" href="#timeline">Смотреть тайминг</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-cue" aria-hidden="true">
+      <span><i></i> листайте вниз</span>
+    </div>
+  </header>
+
+  <!-- BLOCK 2 -->
+  <section id="guests">
+    <div class="container">
+      <p class="eyebrow">Дорогие гости</p>
+
+      <div class="two-col">
+        <div>
+          <h2 class="title-serif h2">Мы рады сообщить Вам</h2>
+          <div class="divider"></div>
+          <p class="p">
+            Мы рады сообщить Вам, что 30.07.2026 состоится самое главное торжество в нашей жизни — день нашей свадьбы!
+            <br><br>
+            Приглашаем Вас разделить с нами радость этого незабываемого дня.
+          </p>
+
+          <p class="quote">«Там где посеяна любовь — растёт радость»</p>
+
+          <div class="divider"></div>
+          <a class="btn primary" href="#couple">Дальше</a>
+        </div>
+
+        <div>
+          <img class="photo" src="img/guests.jpg" alt="Наше фото" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCK 3 -->
+  <section id="couple" style="background: var(--ivory);">
+    <div class="container">
+      <p class="eyebrow">О нас</p>
+      <h2 class="title-serif h2">Жених и Невеста</h2>
+
+      <div class="stack">
+        <div class="person">
+          <img class="avatar" src="img/groom.jpg" alt="Артём" />
+          <div>
+            <p class="role">Жених</p>
+            <p class="person-name">Артём</p>
+          </div>
+        </div>
+
+        <div class="person">
+          <img class="avatar" src="img/bride.jpg" alt="Алёна" />
+          <div>
+            <p class="role">Невеста</p>
+            <p class="person-name">Алёна</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCK 4 -->
+  <section id="timeline">
+    <div class="container">
+      <p class="eyebrow">План дня</p>
+      <h2 class="title-serif h2">Тайминг</h2>
+
+      <div class="timeline">
+        <!-- Registry -->
+        <div class="card event">
+          <div class="event-head">
+            <p class="time">10:30</p>
+            <p class="place">
+              Роспись<br>
+              г. Йошкар-Ола, ул. Набережная Брюгге, 5
+            </p>
+          </div>
+
+          <div class="event-media">
+            <img src="img/registry.jpg" alt="Место росписи" />
+            <iframe class="map"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps?q=г.%20Йошкар-Ола,%20ул.%20Набережная%20Брюгге%205&output=embed">
+            </iframe>
+
+            <div class="event-actions">
+              <a class="btn" target="_blank" rel="noopener"
+                href="https://www.google.com/maps?q=г.%20Йошкар-Ола,%20ул.%20Набережная%20Брюгге%205">
+                Открыть карту
+              </a>
+              <a class="btn primary" target="_blank" rel="noopener"
+                href="https://www.google.com/maps/dir/?api=1&destination=г.%20Йошкар-Ола,%20ул.%20Набережная%20Брюгге%205">
+                Построить маршрут
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Banquet -->
+        <div class="card event">
+          <div class="event-head">
+            <p class="time">15:00</p>
+            <p class="place">
+              Банкет<br>
+              г. Йошкар-Ола, д. Данилово, ул. Данилово, 183А
+            </p>
+          </div>
+
+          <div class="event-media">
+            <img src="img/banquet.jpg" alt="Место банкета" />
+            <iframe class="map"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps?q=г.%20Йошкар-Ола,%20д.%20Данилово,%20ул.%20Данилово%20183А&output=embed">
+            </iframe>
+
+            <div class="event-actions">
+              <a class="btn" target="_blank" rel="noopener"
+                href="https://www.google.com/maps?q=г.%20Йошкар-Ола,%20д.%20Данилово,%20ул.%20Данилово%20183А">
+                Открыть карту
+              </a>
+              <a class="btn primary" target="_blank" rel="noopener"
+                href="https://www.google.com/maps/dir/?api=1&destination=г.%20Йошкар-Ола,%20д.%20Данилово,%20ул.%20Данилово%20183А">
+                Построить маршрут
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCK 5 (без бота пока) -->
+  <section class="rsvp" id="rsvp">
+    <div class="container">
+      <p class="eyebrow">Подтверждение</p>
+      <div class="rsvp-card">
+        <h2 class="title-serif h2" style="margin:0;">Подтвердите присутствие</h2>
+        <p class="p">
+          Скоро здесь будет удобное подтверждение через Telegram-бота.
+          Пока что вы можете связаться с нами любым удобным способом.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Артём & Алёна • 30.07.2026
+  </footer>
+
+<script>
+  // ---------- TIMER (30.07.2026) ----------
+  const weddingDate = new Date(2026, 6, 30, 0, 0, 0); // месяц 6 = July
+  const $d = document.getElementById('d');
+  const $h = document.getElementById('h');
+  const $m = document.getElementById('m');
+  const $s = document.getElementById('s');
+
+  function pad(n){ return String(n).padStart(2,'0'); }
+
+  function tick(){
+    const now = new Date();
+    let diff = weddingDate - now;
+
+    if(diff <= 0){
+      $d.textContent = "00";
+      $h.textContent = "00";
+      $m.textContent = "00";
+      $s.textContent = "00";
+      return;
+    }
+
+    const sec = Math.floor(diff / 1000);
+    const days = Math.floor(sec / 86400);
+    const hours = Math.floor((sec % 86400) / 3600);
+    const mins = Math.floor((sec % 3600) / 60);
+    const secs = sec % 60;
+
+    $d.textContent = String(days);
+    $h.textContent = pad(hours);
+    $m.textContent = pad(mins);
+    $s.textContent = pad(secs);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // ---------- ENVELOPE OPEN -> GO TO HERO ----------
+  const overlay = document.getElementById('overlay');
+  const envelope = document.getElementById('envelope');
+
+  envelope.addEventListener('click', () => {
+    envelope.classList.add('open');
+
+    setTimeout(() => {
+      overlay.classList.add('fade-out');
+      setTimeout(() => overlay.remove(), 900);
+
+      setTimeout(() => {
+        document.getElementById('start').scrollIntoView({behavior:'smooth'});
+      }, 250);
+    }, 850);
+  });
+</script>
+
+</body>
+</html>
